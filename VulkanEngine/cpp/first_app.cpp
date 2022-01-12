@@ -6,4 +6,5 @@ namespace ve {
 			glfwPollEvents();
 		}
 	}
+
 } // namespace ve

@@ -22,11 +22,15 @@
     <ClCompile Include="cpp\first_app.cpp" />
     <ClCompile Include="cpp\main.cpp" />
     <ClCompile Include="cpp\ve_window.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hpp\first_app.hpp" />
     <ClInclude Include="hpp\ve_window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compile.bat" />
+    <None Include="shaders\simple_shader.frag" />
+    <None Include="shaders\simple_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

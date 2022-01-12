@@ -7,10 +7,14 @@
 
 namespace ve {
 
+	// ve_window handles pointer to GLFWwindow class
 class ve_window {
 public:
 	ve_window(int w, int h, std::string name);
 	~ve_window();
+
+	ve_window(const ve_window&) = delete;
+	ve_window& operator=(const ve_window&) = delete;
 
 	bool shouldClose() {
 		return glfwWindowShouldClose(window);

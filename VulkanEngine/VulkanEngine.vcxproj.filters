@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\first_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,5 +32,12 @@
     <ClInclude Include="hpp\ve_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\simple_shader.vert" />
+    <None Include="shaders\simple_shader.frag" />
+    <None Include="compile.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

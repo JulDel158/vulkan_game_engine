@@ -1,4 +1,3 @@
-
 #include "../hpp/first_app.hpp"
 
 #include <cstdlib>
