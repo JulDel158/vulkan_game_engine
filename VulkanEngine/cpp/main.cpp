@@ -1,6 +1,5 @@
 
-#include "hpp/first_app.hpp"
-
+#include "../hpp/first_app.hpp"
 
 #include <cstdlib>
 #include <iostream>

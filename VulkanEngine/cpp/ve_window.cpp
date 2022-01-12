@@ -1,4 +1,4 @@
-#include "ve_window.hpp"
+#include "../hpp/ve_window.hpp"
 
 
 namespace ve {

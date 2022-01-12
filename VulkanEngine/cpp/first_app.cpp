@@ -1,4 +1,4 @@
-#include "first_app.hpp"
+#include "../hpp/first_app.hpp"
 
 namespace ve {
 	void FirstApp::run() {

@@ -18,18 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ve_window.cpp">
+    <ClCompile Include="cpp\first_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="first_app.cpp">
+    <ClCompile Include="cpp\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\ve_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ve_window.hpp">
+    <ClInclude Include="hpp\first_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="first_app.hpp">
+    <ClInclude Include="hpp\ve_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
