@@ -5,3 +5,6 @@ x64/
 
 # Executables
 *.exe
+
+# Shaders
+*.spv
