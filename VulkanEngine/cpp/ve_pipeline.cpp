@@ -6,7 +6,7 @@
 
 namespace ve {
 
-	VePipeline::VePipeline(
+	ve_pipeline::ve_pipeline(
 		ve_device& device,
 		const std::string& vertFilepath,
 		const std::string& fragFilepath,
@@ -14,14 +14,14 @@ namespace ve {
 		createGraphicsPipeline(vertFilepath, fragFilepath, configInfo);
 	}
 
-	VePipeline::~VePipeline() {
+	ve_pipeline::~ve_pipeline() {
 		vkDestroyShaderModule(veDevice.device(), vertShaderModule, nullptr);
 		vkDestroyShaderModule(veDevice.device(), fragShaderModule, nullptr);
 		vkDestroyPipeline(veDevice.device(), graphicsPipeline, nullptr);
 
 	}
 
-	std::vector<char> VePipeline::readFile(const std::string& filepath) {
+	std::vector<char> ve_pipeline::readFile(const std::string& filepath) {
 		// opening file at the end of it in binary
 		std::ifstream file{ filepath, std::ios::ate | std::ios::binary };
 
@@ -41,7 +41,7 @@ namespace ve {
 		return buffer;
 	}
 
-	void VePipeline::createGraphicsPipeline(
+	void ve_pipeline::createGraphicsPipeline(
 		const std::string& vertFilepath, const std::string& fragFilepath, const PipelineCongfigInfo& configInfo) {
 
 		assert(configInfo.pipelineLayout != VK_NULL_HANDLE &&
@@ -83,13 +83,21 @@ namespace ve {
 		vertexInputInfo.pVertexAttributeDescriptions = nullptr;
 		vertexInputInfo.pVertexBindingDescriptions = nullptr;
 
+		// view port and scissor creation
+		VkPipelineViewportStateCreateInfo viewportInfo{};
+		viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+		viewportInfo.viewportCount = 1;
+		viewportInfo.pViewports = &configInfo.viewport;
+		viewportInfo.scissorCount = 1;
+		viewportInfo.pScissors = &configInfo.scissor;
+
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
 		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 		pipelineInfo.stageCount = 2;
 		pipelineInfo.pStages = shaderStages;
 		pipelineInfo.pVertexInputState = &vertexInputInfo;
 		pipelineInfo.pInputAssemblyState = &configInfo.inputAssemblyInfo;
-		pipelineInfo.pViewportState = &configInfo.viewportInfo;
+		pipelineInfo.pViewportState = &viewportInfo;
 		pipelineInfo.pRasterizationState = &configInfo.rasterizationInfo;
 		pipelineInfo.pMultisampleState = &configInfo.multisampleInfo;
 		pipelineInfo.pColorBlendState = &configInfo.colorBlendInfo;
@@ -109,7 +117,7 @@ namespace ve {
 
 	}
 
-	void VePipeline::CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule) {
+	void ve_pipeline::CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule) {
 		VkShaderModuleCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 		createInfo.codeSize = code.size();
@@ -120,7 +128,7 @@ namespace ve {
 		}
 	}
 
-	PipelineCongfigInfo VePipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
+	PipelineCongfigInfo ve_pipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
 	{
 		PipelineCongfigInfo configInfo{};
 		// input assembler
@@ -139,13 +147,6 @@ namespace ve {
 		// cuts offscreen data (out of the screen)
 		configInfo.scissor.offset = { 0, 0 };
 		configInfo.scissor.extent = { width, height };
-
-		// view port and scissor creation
-		configInfo.viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-		configInfo.viewportInfo.viewportCount = 1;
-		configInfo.viewportInfo.pViewports = &configInfo.viewport;
-		configInfo.viewportInfo.scissorCount = 1;
-		configInfo.viewportInfo.pScissors = &configInfo.scissor;
 
 		// Rasterizer stage
 		configInfo.rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;

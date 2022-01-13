@@ -10,7 +10,6 @@ namespace ve {
 struct PipelineCongfigInfo {
 	VkViewport viewport;
 	VkRect2D scissor;
-	VkPipelineViewportStateCreateInfo viewportInfo;
 	VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
 	VkPipelineRasterizationStateCreateInfo rasterizationInfo;
 	VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -22,18 +21,18 @@ struct PipelineCongfigInfo {
 	uint32_t subpass = 0;
 };
 
-class VePipeline {
+class ve_pipeline {
 public:
-	VePipeline(
+	ve_pipeline(
 		ve_device& device,
 		const std::string& vertFilepath, 
 		const std::string& fragFilepath,
 		const PipelineCongfigInfo& configInfo);
 
-	~VePipeline();
+	~ve_pipeline();
 
-	VePipeline(const VePipeline&) = delete;
-	VePipeline& operator=(const VePipeline&) = delete;
+	ve_pipeline(const ve_pipeline&) = delete;
+	ve_pipeline& operator=(const ve_pipeline&) = delete;
 
 	static PipelineCongfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
 
