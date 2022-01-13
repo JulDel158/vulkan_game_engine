@@ -34,6 +34,8 @@ public:
 	ve_pipeline(const ve_pipeline&) = delete;
 	ve_pipeline& operator=(const ve_pipeline&) = delete;
 
+	void bind(VkCommandBuffer commandBuffer);
+
 	static PipelineCongfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
 
 private:
