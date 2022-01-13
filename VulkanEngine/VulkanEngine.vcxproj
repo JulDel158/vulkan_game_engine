@@ -22,6 +22,7 @@
     <ClCompile Include="cpp\first_app.cpp" />
     <ClCompile Include="cpp\main.cpp" />
     <ClCompile Include="cpp\ve_device.cpp" />
+    <ClCompile Include="cpp\ve_model.cpp" />
     <ClCompile Include="cpp\ve_pipeline.cpp" />
     <ClCompile Include="cpp\ve_swap_chain.cpp" />
     <ClCompile Include="cpp\ve_window.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="hpp\first_app.hpp" />
     <ClInclude Include="hpp\ve_device.hpp" />
+    <ClInclude Include="hpp\ve_model.hpp" />
     <ClInclude Include="hpp\ve_pipeline.hpp" />
     <ClInclude Include="hpp\ve_swap_chain.hpp" />
     <ClInclude Include="hpp\ve_window.hpp" />

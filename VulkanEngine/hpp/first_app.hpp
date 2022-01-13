@@ -4,6 +4,7 @@
 #include "ve_pipeline.hpp"
 #include "ve_swap_chain.hpp"
 #include "ve_device.hpp"
+#include "ve_model.hpp"
 
 #include <memory>
 #include <vector>
@@ -23,6 +24,7 @@ public:
 
 	void run();
 private:
+	void loadModels();
 	void createPipelineLayout();
 	void createPipeline();
 	void createCommandBuffers();
@@ -34,7 +36,7 @@ private:
 	std::unique_ptr<ve_pipeline> vePipeline;
 	VkPipelineLayout pipelineLayout;
 	std::vector<VkCommandBuffer> commandBuffers;
-	//ve_pipeline vePipeline{veDevice, "Shaders/simple_shader.vert.spv", "shaders/simple_shader.frag.spv", ve_pipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT) };
+	std::unique_ptr<ve_model> veModel;
 };
 
 

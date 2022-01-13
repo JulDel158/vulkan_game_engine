@@ -403,6 +403,7 @@ uint32_t ve_device::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
   throw std::runtime_error("failed to find suitable memory type!");
 }
 
+// This function will have to change once a memory allocator is introduced
 void ve_device::createBuffer(
     VkDeviceSize size,
     VkBufferUsageFlags usage,
