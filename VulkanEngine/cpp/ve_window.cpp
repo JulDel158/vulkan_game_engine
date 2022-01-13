@@ -1,5 +1,6 @@
 #include "../hpp/ve_window.hpp"
 
+#include <stdexcept>
 
 namespace ve {
 
@@ -13,6 +14,12 @@ namespace ve {
 	ve_window::~ve_window() {
 		glfwDestroyWindow(window);
 		glfwTerminate();
+	}
+
+	void ve_window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
+		if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
+			throw std::runtime_error("Failed to create window surface");
+		}
 	}
 
 	void ve_window::initWindow() {
