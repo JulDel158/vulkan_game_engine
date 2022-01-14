@@ -28,11 +28,14 @@ private:
 	void createPipelineLayout();
 	void createPipeline();
 	void createCommandBuffers();
+	void freeCommandBuffers();
 	void drawFrame();
+	void recreateSwapChain();
+	void recordCommandBuffer(int imageIndex);
 
 	ve_window veWindow{ WIDTH, HEIGHT, "Hello Vulkan!" };
 	ve_device veDevice{ veWindow };
-	ve_swap_chain veSwapChain{veDevice, veWindow.getExtend()};
+	std::unique_ptr<ve_swap_chain> veSwapChain;
 	std::unique_ptr<ve_pipeline> vePipeline;
 	VkPipelineLayout pipelineLayout;
 	std::vector<VkCommandBuffer> commandBuffers;
