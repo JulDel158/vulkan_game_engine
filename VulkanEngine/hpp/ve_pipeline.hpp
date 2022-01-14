@@ -33,6 +33,7 @@ public:
 		const std::string& fragFilepath,
 		const PipelineConfigInfo& configInfo);
 
+	ve_pipeline() = default;
 	~ve_pipeline();
 
 	ve_pipeline(const ve_pipeline&) = delete;
