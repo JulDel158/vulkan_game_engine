@@ -30,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="hpp\first_app.hpp" />
     <ClInclude Include="hpp\ve_device.hpp" />
+    <ClInclude Include="hpp\ve_game_object.hpp" />
     <ClInclude Include="hpp\ve_model.hpp" />
     <ClInclude Include="hpp\ve_pipeline.hpp" />
     <ClInclude Include="hpp\ve_swap_chain.hpp" />

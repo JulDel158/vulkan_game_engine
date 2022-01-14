@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ve_window.hpp"
+#include "ve_device.hpp"
+#include "ve_game_object.hpp"
 #include "ve_pipeline.hpp"
 #include "ve_swap_chain.hpp"
-#include "ve_device.hpp"
-#include "ve_model.hpp"
+#include "ve_window.hpp"
 
 #include <memory>
 #include <vector>
@@ -24,7 +24,7 @@ public:
 
 	void run();
 private:
-	void loadModels();
+	void loadGameObjects();
 	void createPipelineLayout();
 	void createPipeline();
 	void createCommandBuffers();
@@ -32,6 +32,7 @@ private:
 	void drawFrame();
 	void recreateSwapChain();
 	void recordCommandBuffer(int imageIndex);
+	void renderGameObjects(VkCommandBuffer commandBuffer);
 
 	ve_window veWindow{ WIDTH, HEIGHT, "Hello Vulkan!" };
 	ve_device veDevice{ veWindow };
@@ -39,7 +40,7 @@ private:
 	std::unique_ptr<ve_pipeline> vePipeline;
 	VkPipelineLayout pipelineLayout;
 	std::vector<VkCommandBuffer> commandBuffers;
-	std::unique_ptr<ve_model> veModel;
+	std::vector<ve_game_object> gameObjects;
 };
 
 
