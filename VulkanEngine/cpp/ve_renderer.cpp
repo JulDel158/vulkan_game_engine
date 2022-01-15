@@ -30,12 +30,12 @@ namespace ve {
 			veSwapChain = std::make_unique<ve_swap_chain>(veDevice, extent);
 		}
 		else {
+			std::shared_ptr<ve_swap_chain> oldSwapChain = std::move(veSwapChain);
 			veSwapChain = std::make_unique<ve_swap_chain>(veDevice,
-				extent, std::move(veSwapChain));
+				extent, oldSwapChain);
 
-			if (veSwapChain->imageCount() != commandBuffers.size()) {
-				freeCommandBuffers();
-				createCommandBuffers();
+			if (!oldSwapChain->compareSwapFormat(*veSwapChain.get())) {
+				throw std::runtime_error("Swap chain image(or depth) format has changed");
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace ve {
 	}
 
 	void ve_renderer::createCommandBuffers() {
-		commandBuffers.resize(veSwapChain->imageCount());
+		commandBuffers.resize(ve_swap_chain::MAX_FRAMES_IN_FLIGHT);
 
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -110,6 +110,7 @@ namespace ve {
 		}
 
 		isFrameStarted = false;
+		currentFrameIndex = (currentFrameIndex + 1) % ve_swap_chain::MAX_FRAMES_IN_FLIGHT;
 	}
 
 	void ve_renderer::beginSwapChainRenderPass(VkCommandBuffer commandBuffer) {
