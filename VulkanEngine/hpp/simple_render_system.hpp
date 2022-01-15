@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ve_camera.hpp"
 #include "ve_device.hpp"
 #include "ve_game_object.hpp"
 #include "ve_pipeline.hpp"
@@ -19,7 +20,8 @@ namespace ve {
 		simple_render_system& operator=(const simple_render_system&) = delete;
 
 		void renderGameObjects(VkCommandBuffer commandBuffer, 
-			std::vector<ve_game_object> &gameObjects);
+			std::vector<ve_game_object> &gameObjects,
+			const ve_camera &camera);
 
 	private:
 		void createPipelineLayout();

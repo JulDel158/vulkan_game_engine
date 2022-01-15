@@ -1,5 +1,6 @@
 #include "../hpp/first_app.hpp"
 
+#include "../hpp/ve_camera.hpp"
 #include "../hpp/simple_render_system.hpp"
 
 // libs
@@ -22,13 +23,22 @@ namespace ve {
 
 	void FirstApp::run() {
 		simple_render_system simpleRenderSystem{ veDevice, veRenderer.getSwapChainRenderPass() };
+        ve_camera camera{};
+        //camera.setViewDirection(glm::vec3(0.f), glm::vec3(0.5f, 0.f, 1.f));
+        camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
+
 
 		while (!veWindow.shouldClose()) {
 			glfwPollEvents();
+
+            float aspect = veRenderer.getAspectRatio();
+
+            // camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
+            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
 			
 			if (auto commandBuffer = veRenderer.beginFrame()) {
 				veRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
+				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects, camera);
 				veRenderer.endSwapChainRenderPass(commandBuffer);
 				veRenderer.endFrame();
 			}
@@ -102,7 +112,7 @@ namespace ve {
 
         auto cube = ve_game_object::createGameObject();
         cube.model = veModel;
-        cube.transform.translation = { 0.f, 0.f, 0.5f };
+        cube.transform.translation = { 0.f, 0.f, 2.5f };
         cube.transform.scale = { .5f, .5f, .5f };
         gameObjects.push_back(std::move(cube));
 	}

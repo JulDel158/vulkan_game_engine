@@ -21,6 +21,8 @@ namespace ve {
 
 		VkRenderPass getSwapChainRenderPass() const { return veSwapChain->getRenderPass(); }
 
+		float getAspectRatio() const { return veSwapChain->extentAspectRatio(); }
+
 		bool isFrameInProgress() const { return isFrameStarted; }
 
 		VkCommandBuffer getCurrentCommandBuffer() const {

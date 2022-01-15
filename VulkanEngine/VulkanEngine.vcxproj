@@ -22,6 +22,7 @@
     <ClCompile Include="cpp\first_app.cpp" />
     <ClCompile Include="cpp\main.cpp" />
     <ClCompile Include="cpp\simple_render_system.cpp" />
+    <ClCompile Include="cpp\ve_camera.cpp" />
     <ClCompile Include="cpp\ve_device.cpp" />
     <ClCompile Include="cpp\ve_model.cpp" />
     <ClCompile Include="cpp\ve_pipeline.cpp" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="hpp\first_app.hpp" />
     <ClInclude Include="hpp\simple_render_system.hpp" />
+    <ClInclude Include="hpp\ve_camera.hpp" />
     <ClInclude Include="hpp\ve_device.hpp" />
     <ClInclude Include="hpp\ve_game_object.hpp" />
     <ClInclude Include="hpp\ve_model.hpp" />
