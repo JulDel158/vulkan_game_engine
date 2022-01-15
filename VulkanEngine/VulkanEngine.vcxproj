@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp\first_app.cpp" />
+    <ClCompile Include="cpp\keyboard_movement_controller.cpp" />
     <ClCompile Include="cpp\main.cpp" />
     <ClCompile Include="cpp\simple_render_system.cpp" />
     <ClCompile Include="cpp\ve_camera.cpp" />
@@ -32,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hpp\first_app.hpp" />
+    <ClInclude Include="hpp\keyboard_movement_controller.hpp" />
     <ClInclude Include="hpp\simple_render_system.hpp" />
     <ClInclude Include="hpp\ve_camera.hpp" />
     <ClInclude Include="hpp\ve_device.hpp" />

@@ -1,6 +1,7 @@
 #include "../hpp/first_app.hpp"
 
 #include "../hpp/ve_camera.hpp"
+#include "../hpp/keyboard_movement_controller.hpp"
 #include "../hpp/simple_render_system.hpp"
 
 // libs
@@ -10,8 +11,9 @@
 #include <glm/gtc/constants.hpp>
 
 // std
-#include <stdexcept>
 #include <array>
+#include <chrono>
+#include <stdexcept>
 
 namespace ve {
 
@@ -27,13 +29,24 @@ namespace ve {
         //camera.setViewDirection(glm::vec3(0.f), glm::vec3(0.5f, 0.f, 1.f));
         camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
 
+        auto viewerObject = ve_game_object::createGameObject();
+        KeyboardMovementController cameraController{};
+
+        auto currentTime = std::chrono::high_resolution_clock::now();
 
 		while (!veWindow.shouldClose()) {
 			glfwPollEvents();
 
+            auto newTime = std::chrono::high_resolution_clock::now();
+            float frameTime = std::chrono::duration<float, 
+                std::chrono::seconds::period>(newTime - currentTime).count();
+            currentTime = newTime;
+
+            cameraController.moveInPlaneXZ(veWindow.getGLFWwindow(), frameTime, viewerObject);
+            camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
+
             float aspect = veRenderer.getAspectRatio();
 
-            // camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
             camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
 			
 			if (auto commandBuffer = veRenderer.beginFrame()) {
