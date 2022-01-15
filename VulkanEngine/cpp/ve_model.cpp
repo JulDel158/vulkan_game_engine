@@ -1,13 +1,28 @@
 #include "../hpp/ve_model.hpp"
 
+#include "../hpp/ve_utils.hpp"
+
 // libs
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
 
 // std
 #include <cassert>
 #include <cstring>
-#include <iostream>
+#include <unordered_map>
+
+namespace std {
+	template<>
+	struct hash<ve::ve_model::Vertex> {
+		size_t operator()(ve::ve_model::Vertex const& vertex) const {
+			size_t seed = 0;
+			ve::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+			return seed;
+		}
+	};
+}
 
 namespace ve {
 
@@ -29,7 +44,6 @@ namespace ve {
 	std::unique_ptr<ve_model> ve_model::createModelFromFile(ve_device& device, const std::string& filepath) {
 		Builder builder{};
 		builder.loadModel(filepath);
-		std::printf("Vertex count: %zu\nIndex count: %zu\n", builder.vertices.size(), builder.indices.size());
 		return std::make_unique<ve_model>(device, builder);
 	}
 
@@ -156,6 +170,8 @@ namespace ve {
 		vertices.clear();
 		indices.clear();
 
+		std::unordered_map<Vertex, uint32_t> uniqueVertices{};
+
 		for (const auto& shape : shapes) {
 			for (const auto& index : shape.mesh.indices) {
 				Vertex vertex{};
@@ -194,7 +210,11 @@ namespace ve {
 					};
 				}
 
-				vertices.push_back(vertex);
+				if (uniqueVertices.count(vertex) == 0) {
+					uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+					vertices.push_back(vertex);
+				}
+				indices.push_back(uniqueVertices[vertex]);
 
 			}
 		} // end for
