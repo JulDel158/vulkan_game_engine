@@ -20,7 +20,9 @@ namespace ve {
 
     struct GlobalUbo {
         glm::mat4 projectionView{ 1.f };
-        glm::vec3 lightDirection = glm::normalize(glm::vec3{ 1.f, -3.f, -1.f });
+        glm::vec4 ambientLightColor{ 1.f, 1.f, 1.f, 0.02f };
+        glm::vec3 pLightPosition{ -1.f };
+        alignas(16) glm::vec4 pLightColor{ 1.f }; // w is light intensity
     };
 
 	FirstApp::FirstApp() {
@@ -48,7 +50,7 @@ namespace ve {
         }
 
         auto globalSetLayout = ve_descriptor_set_layout::Builder(veDevice)
-            .addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+            .addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
             .build();
 
         std::vector<VkDescriptorSet> globalDescriptorSets(ve_swap_chain::MAX_FRAMES_IN_FLIGHT);
@@ -68,6 +70,7 @@ namespace ve {
         camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
 
         auto viewerObject = ve_game_object::createGameObject();
+        viewerObject.transform.translation.z = -2.5f;
         KeyboardMovementController cameraController{};
 
         auto currentTime = std::chrono::high_resolution_clock::now();
@@ -85,7 +88,7 @@ namespace ve {
 
             float aspect = veRenderer.getAspectRatio();
 
-            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
+            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 			
 			if (auto commandBuffer = veRenderer.beginFrame()) {
                 int frameIndex = veRenderer.getFraneIndex();
@@ -120,16 +123,23 @@ namespace ve {
 
         auto flatBase = ve_game_object::createGameObject();
         flatBase.model = veModel;
-        flatBase.transform.translation = { -1.f, 0.5f, 2.5f };
+        flatBase.transform.translation = { -1.f, 0.5f, 0.f };
         flatBase.transform.scale = { 5.f, 3.f, 3.f };
         gameObjects.push_back(std::move(flatBase));
 
         veModel = ve_model::createModelFromFile(veDevice, "assets/smooth_vase.obj");
         auto smoothBase = ve_game_object::createGameObject();
         smoothBase.model = veModel;
-        smoothBase.transform.translation = { 0.5f, 0.5f, 2.5f };
+        smoothBase.transform.translation = { 0.5f, 0.5f, 0.f };
         smoothBase.transform.scale = { 5.f, 3.f, 3.f };
         gameObjects.push_back(std::move(smoothBase));
+
+        veModel = ve_model::createModelFromFile(veDevice, "assets/quad.obj");
+        auto floor = ve_game_object::createGameObject();
+        floor.model = veModel;
+        floor.transform.translation = { 0.f, 0.5f, 0.f };
+        floor.transform.scale = { 5.f, 1.f, 5.f };
+        gameObjects.push_back(std::move(floor));
 	}
 
 } // namespace ve
