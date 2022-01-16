@@ -97,7 +97,8 @@ namespace ve {
                     frameTime,
                     commandBuffer,
                     camera,
-                    globalDescriptorSets[frameIndex]
+                    globalDescriptorSets[frameIndex],
+                    gameObjects
                 };
 
                 // update
@@ -108,7 +109,7 @@ namespace ve {
 
                 // render
 				veRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(frameInfo, gameObjects);
+				simpleRenderSystem.renderGameObjects(frameInfo);
 				veRenderer.endSwapChainRenderPass(commandBuffer);
 				veRenderer.endFrame();
 			}
@@ -121,25 +122,25 @@ namespace ve {
 	void FirstApp::loadGameObjects() {
         std::shared_ptr<ve_model> veModel = ve_model::createModelFromFile(veDevice, "assets/flat_vase.obj");
 
-        auto flatBase = ve_game_object::createGameObject();
-        flatBase.model = veModel;
-        flatBase.transform.translation = { -1.f, 0.5f, 0.f };
-        flatBase.transform.scale = { 5.f, 3.f, 3.f };
-        gameObjects.push_back(std::move(flatBase));
+        auto flatVase = ve_game_object::createGameObject();
+        flatVase.model = veModel;
+        flatVase.transform.translation = { -1.f, 0.5f, 0.f };
+        flatVase.transform.scale = { 5.f, 3.f, 3.f };
+        gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 
         veModel = ve_model::createModelFromFile(veDevice, "assets/smooth_vase.obj");
-        auto smoothBase = ve_game_object::createGameObject();
-        smoothBase.model = veModel;
-        smoothBase.transform.translation = { 0.5f, 0.5f, 0.f };
-        smoothBase.transform.scale = { 5.f, 3.f, 3.f };
-        gameObjects.push_back(std::move(smoothBase));
+        auto smoothVase = ve_game_object::createGameObject();
+        smoothVase.model = veModel;
+        smoothVase.transform.translation = { 0.5f, 0.5f, 0.f };
+        smoothVase.transform.scale = { 5.f, 3.f, 3.f };
+        gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
 
         veModel = ve_model::createModelFromFile(veDevice, "assets/quad.obj");
         auto floor = ve_game_object::createGameObject();
         floor.model = veModel;
         floor.transform.translation = { 0.f, 0.5f, 0.f };
         floor.transform.scale = { 5.f, 1.f, 5.f };
-        gameObjects.push_back(std::move(floor));
+        gameObjects.emplace(floor.getId(), std::move(floor));
 	}
 
 } // namespace ve

@@ -7,6 +7,7 @@
 
 // std
 #include <memory>
+#include <unordered_map>
 
 namespace ve {
 
@@ -25,6 +26,8 @@ namespace ve {
 	class ve_game_object {
 	public:
 		using id_t = unsigned int;
+		using Map = std::unordered_map<id_t, ve_game_object>;
+
 		static ve_game_object createGameObject() {
 			static id_t currentId = 0;
 			return ve_game_object{ currentId++ };

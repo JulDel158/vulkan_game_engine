@@ -33,7 +33,7 @@ private:
 
 	// note: order of declaration matters
 	std::unique_ptr<ve_descriptor_pool> globalPool{};
-	std::vector<ve_game_object> gameObjects;
+	ve_game_object::Map gameObjects;
 };
 
 

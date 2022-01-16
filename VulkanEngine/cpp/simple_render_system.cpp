@@ -64,8 +64,7 @@ namespace ve {
 			pipelineConfig);
 	}
 
-	void simple_render_system::renderGameObjects(frame_info& frameInfo,
-		std::vector<ve_game_object>& gameObjects) {
+	void simple_render_system::renderGameObjects(frame_info& frameInfo) {
 		vePipeline->bind(frameInfo.commandBuffer);
 
 		vkCmdBindDescriptorSets(
@@ -78,7 +77,8 @@ namespace ve {
 			0, 
 			nullptr);
 
-		for (auto& obj : gameObjects) {
+		for (auto& kv : frameInfo.gameObjects) {
+			auto& obj = kv.second;
 
 			SimplePushConstantData push{};
 			push.modelMatrix = obj.transform.mat4();
