@@ -1,5 +1,6 @@
 #include "../hpp/first_app.hpp"
 
+#include "../hpp/ve_buffer.hpp"
 #include "../hpp/ve_camera.hpp"
 #include "../hpp/keyboard_movement_controller.hpp"
 #include "../hpp/simple_render_system.hpp"
@@ -17,6 +18,11 @@
 
 namespace ve {
 
+    struct GlobalUbo {
+        glm::mat4 projectionView{ 1.f };
+        glm::vec3 lightDirection = glm::normalize(glm::vec3{ 1.f, -3.f, -1.f });
+    };
+
 	FirstApp::FirstApp() {
 		loadGameObjects();
 	}
@@ -24,6 +30,19 @@ namespace ve {
 	FirstApp::~FirstApp() {}
 
 	void FirstApp::run() {
+
+        std::vector<std::unique_ptr<ve_buffer>> uboBuffers(ve_swap_chain::MAX_FRAMES_IN_FLIGHT);
+
+        for (int i = 0; i < uboBuffers.size(); ++i) {
+            uboBuffers[i] = std::make_unique<ve_buffer>(
+                veDevice,
+                sizeof(GlobalUbo),
+                1,
+                VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
+            uboBuffers[i]->map();
+        }
+
 		simple_render_system simpleRenderSystem{ veDevice, veRenderer.getSwapChainRenderPass() };
         ve_camera camera{};
         //camera.setViewDirection(glm::vec3(0.f), glm::vec3(0.5f, 0.f, 1.f));
@@ -50,8 +69,23 @@ namespace ve {
             camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
 			
 			if (auto commandBuffer = veRenderer.beginFrame()) {
+                int frameIndex = veRenderer.getFraneIndex();
+                frame_info frameInfo{
+                    frameIndex,
+                    frameTime,
+                    commandBuffer,
+                    camera
+                };
+
+                // update
+                GlobalUbo ubo{};
+                ubo.projectionView = camera.getProjection() * camera.getView();
+                uboBuffers[frameIndex]->writeToBuffer(&ubo);
+                uboBuffers[frameIndex]->flush();
+
+                // render
 				veRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects, camera);
+				simpleRenderSystem.renderGameObjects(frameInfo, gameObjects);
 				veRenderer.endSwapChainRenderPass(commandBuffer);
 				veRenderer.endFrame();
 			}

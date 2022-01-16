@@ -62,11 +62,11 @@ namespace ve {
 			pipelineConfig);
 	}
 
-	void simple_render_system::renderGameObjects(VkCommandBuffer commandBuffer, 
-		std::vector<ve_game_object>& gameObjects, const ve_camera& camera) {
-		vePipeline->bind(commandBuffer);
+	void simple_render_system::renderGameObjects(frame_info& frameInfo,
+		std::vector<ve_game_object>& gameObjects) {
+		vePipeline->bind(frameInfo.commandBuffer);
 
-		auto projectionView = camera.getProjection() * camera.getView();
+		auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
 		for (auto& obj : gameObjects) {
 
@@ -76,15 +76,15 @@ namespace ve {
 			push.normalMatrix = obj.transform.normalMatrix();
 
 			vkCmdPushConstants(
-				commandBuffer,
+				frameInfo.commandBuffer,
 				pipelineLayout,
 				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 				0,
 				sizeof(SimplePushConstantData),
 				&push);
 
-			obj.model->bind(commandBuffer);
-			obj.model->draw(commandBuffer);
+			obj.model->bind(frameInfo.commandBuffer);
+			obj.model->draw(frameInfo.commandBuffer);
 		}
 	}
 
