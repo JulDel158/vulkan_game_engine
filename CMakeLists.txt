@@ -62,9 +62,10 @@ if (NOT TINYOBJ_PATH)
   set(TINYOBJ_PATH external/tinyobjloader)
 endif()
  
+file(GLOB_RECURSE MY_HEADERS ${PROJECT_SOURCE_DIR}/src/hpp/*.hpp)
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/cpp/*.cpp)
  
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${MY_HEADERS})
  
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
  
@@ -83,7 +84,6 @@ if (WIN32)
   endif()
  
   target_include_directories(${PROJECT_NAME} PUBLIC
-    ${PROJECT_SOURCE_DIR}/src/hpp
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}
