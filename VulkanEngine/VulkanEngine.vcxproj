@@ -25,6 +25,7 @@
     <ClCompile Include="cpp\simple_render_system.cpp" />
     <ClCompile Include="cpp\ve_camera.cpp" />
     <ClCompile Include="cpp\ve_device.cpp" />
+    <ClCompile Include="cpp\ve_game_object.cpp" />
     <ClCompile Include="cpp\ve_model.cpp" />
     <ClCompile Include="cpp\ve_pipeline.cpp" />
     <ClCompile Include="cpp\ve_renderer.cpp" />
