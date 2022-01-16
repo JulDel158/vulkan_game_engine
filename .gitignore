@@ -2,6 +2,7 @@
 .vs/
 x64/
 .cache/
+build/
 
 # Executables
 *.exe

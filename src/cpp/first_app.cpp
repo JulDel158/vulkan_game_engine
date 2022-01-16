@@ -120,7 +120,7 @@ namespace ve {
 	}
 
 	void FirstApp::loadGameObjects() {
-        std::shared_ptr<ve_model> veModel = ve_model::createModelFromFile(veDevice, "assets/flat_vase.obj");
+        std::shared_ptr<ve_model> veModel = ve_model::createModelFromFile(veDevice, "../assets/models/flat_vase.obj");
 
         auto flatVase = ve_game_object::createGameObject();
         flatVase.model = veModel;
@@ -128,14 +128,14 @@ namespace ve {
         flatVase.transform.scale = { 5.f, 3.f, 3.f };
         gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 
-        veModel = ve_model::createModelFromFile(veDevice, "assets/smooth_vase.obj");
+        veModel = ve_model::createModelFromFile(veDevice, "../assets/models/smooth_vase.obj");
         auto smoothVase = ve_game_object::createGameObject();
         smoothVase.model = veModel;
         smoothVase.transform.translation = { 0.5f, 0.5f, 0.f };
         smoothVase.transform.scale = { 5.f, 3.f, 3.f };
         gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
 
-        veModel = ve_model::createModelFromFile(veDevice, "assets/quad.obj");
+        veModel = ve_model::createModelFromFile(veDevice, "../assets/models/quad.obj");
         auto floor = ve_game_object::createGameObject();
         floor.model = veModel;
         floor.transform.translation = { 0.f, 0.5f, 0.f };
