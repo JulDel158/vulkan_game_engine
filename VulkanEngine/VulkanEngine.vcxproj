@@ -25,6 +25,7 @@
     <ClCompile Include="cpp\simple_render_system.cpp" />
     <ClCompile Include="cpp\ve_buffer.cpp" />
     <ClCompile Include="cpp\ve_camera.cpp" />
+    <ClCompile Include="cpp\ve_descriptors.cpp" />
     <ClCompile Include="cpp\ve_device.cpp" />
     <ClCompile Include="cpp\ve_game_object.cpp" />
     <ClCompile Include="cpp\ve_model.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="hpp\simple_render_system.hpp" />
     <ClInclude Include="hpp\ve_buffer.hpp" />
     <ClInclude Include="hpp\ve_camera.hpp" />
+    <ClInclude Include="hpp\ve_descriptors.hpp" />
     <ClInclude Include="hpp\ve_device.hpp" />
     <ClInclude Include="hpp\ve_frame_info.hpp" />
     <ClInclude Include="hpp\ve_game_object.hpp" />

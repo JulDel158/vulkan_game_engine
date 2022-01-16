@@ -1,9 +1,10 @@
 #pragma once
 
+#include "ve_descriptors.hpp"
 #include "ve_device.hpp"
 #include "ve_game_object.hpp"
-#include "ve_window.hpp"
 #include "ve_renderer.hpp"
+#include "ve_window.hpp"
 
 // std
 #include <memory>
@@ -30,6 +31,8 @@ private:
 	ve_device veDevice{ veWindow };
 	ve_renderer veRenderer{ veWindow, veDevice };
 
+	// note: order of declaration matters
+	std::unique_ptr<ve_descriptor_pool> globalPool{};
 	std::vector<ve_game_object> gameObjects;
 };
 
