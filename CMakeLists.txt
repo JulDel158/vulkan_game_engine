@@ -64,8 +64,9 @@ endif()
  
 file(GLOB_RECURSE MY_HEADERS ${PROJECT_SOURCE_DIR}/src/hpp/*.hpp)
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/cpp/*.cpp)
+file(GLOB_RECURSE MY_SHADERS ${PROJECT_SOURCE_DIR}/shaders/*.vert ${PROJECT_SOURCE_DIR}/shaders/*.frag)
  
-add_executable(${PROJECT_NAME} ${SOURCES} ${MY_HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${MY_HEADERS} ${MY_SHADERS})
  
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
  
