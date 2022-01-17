@@ -10,7 +10,8 @@ layout(location = 1) out vec3 fragPosWorld;
 layout(location = 2) out vec3 fragNormalWorld;
 
 layout(set = 0, binding = 0) uniform GlobaUbo {
-	mat4 projectionViewMatrix;
+	mat4 projection;
+	mat4 view;
 	vec4 ambientLightColor;
 	vec3 pLightPosition;
 	vec4 pLightColor;
@@ -23,7 +24,7 @@ layout(push_constant) uniform Push {
 
 void main() {
 	vec4 positionWorld =  push.modelMatrix * vec4(position, 1.0);
-	gl_Position = ubo.projectionViewMatrix * positionWorld;
+	gl_Position = ubo.projection * ubo.view * positionWorld;
 
 	// temporary: this is only correct in certain situations
 	// only works correctly if scale is uniform (sx == sy == sz)

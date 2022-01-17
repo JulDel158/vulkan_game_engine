@@ -62,8 +62,8 @@ if (NOT TINYOBJ_PATH)
   set(TINYOBJ_PATH external/tinyobjloader)
 endif()
  
-file(GLOB_RECURSE MY_HEADERS ${PROJECT_SOURCE_DIR}/src/hpp/*.hpp)
-file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/cpp/*.cpp)
+file(GLOB_RECURSE MY_HEADERS ${PROJECT_SOURCE_DIR}/src/hpp/*.hpp ${PROJECT_SOURCE_DIR}/systems/*.hpp)
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/cpp/*.cpp ${PROJECT_SOURCE_DIR}/systems/*.cpp)
 file(GLOB_RECURSE MY_SHADERS ${PROJECT_SOURCE_DIR}/shaders/*.vert ${PROJECT_SOURCE_DIR}/shaders/*.frag)
  
 add_executable(${PROJECT_NAME} ${SOURCES} ${MY_HEADERS} ${MY_SHADERS})
@@ -85,6 +85,8 @@ if (WIN32)
   endif()
  
   target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/src/hpp/
+    ${PROJECT_SOURCE_DIR}/systems/
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}

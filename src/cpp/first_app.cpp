@@ -1,9 +1,10 @@
-#include "../hpp/first_app.hpp"
+#include "first_app.hpp"
 
-#include "../hpp/ve_buffer.hpp"
-#include "../hpp/ve_camera.hpp"
-#include "../hpp/keyboard_movement_controller.hpp"
-#include "../hpp/simple_render_system.hpp"
+#include "ve_buffer.hpp"
+#include "ve_camera.hpp"
+#include "keyboard_movement_controller.hpp"
+#include "simple_render_system.hpp"
+#include "point_light_system.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -19,7 +20,8 @@
 namespace ve {
 
     struct GlobalUbo {
-        glm::mat4 projectionView{ 1.f };
+        glm::mat4 projection{ 1.f };
+        glm::mat4 view{ 1.f };
         glm::vec4 ambientLightColor{ 1.f, 1.f, 1.f, 0.02f };
         glm::vec3 pLightPosition{ -1.f };
         alignas(16) glm::vec4 pLightColor{ 1.f }; // w is light intensity
@@ -66,6 +68,11 @@ namespace ve {
             veDevice, 
             veRenderer.getSwapChainRenderPass(), 
             globalSetLayout->getDescriptorSetLayout()  };
+        point_light_system pointLightSystem{
+            veDevice,
+            veRenderer.getSwapChainRenderPass(),
+            globalSetLayout->getDescriptorSetLayout() };
+
         ve_camera camera{};
         camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
 
@@ -103,13 +110,15 @@ namespace ve {
 
                 // update
                 GlobalUbo ubo{};
-                ubo.projectionView = camera.getProjection() * camera.getView();
+                ubo.projection = camera.getProjection();
+                ubo.view = camera.getView();
                 uboBuffers[frameIndex]->writeToBuffer(&ubo);
                 uboBuffers[frameIndex]->flush();
 
                 // render
 				veRenderer.beginSwapChainRenderPass(commandBuffer);
 				simpleRenderSystem.renderGameObjects(frameInfo);
+                pointLightSystem.render(frameInfo);
 				veRenderer.endSwapChainRenderPass(commandBuffer);
 				veRenderer.endFrame();
 			}
